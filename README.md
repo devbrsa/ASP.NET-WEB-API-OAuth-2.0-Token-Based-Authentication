@@ -69,3 +69,48 @@ Here is the basic flow when the app wants to get a token:
 
 The OAuth middleware doesn't know anything about the user accounts. The provider communicates between the middleware and ASP.NET Identity. For more information about implementing the authorization server.
 
+**Configuring Web API to use Bearer Tokens:**
+
+In the WebApiConfig.Register method, the following code sets up authentication for the Web API pipeline:
+
+```
+config.SuppressDefaultHostAuthentication();
+config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+```
+
+The HostAuthenticationFilter class enables authentication using bearer tokens.
+The SuppressDefaultHostAuthentication method tells Web API to ignore any authentication that happens before the request reaches the Web API pipeline, either by IIS or by OWIN middleware. That way, we can restrict Web API to authenticate only using bearer tokens.
+
+When the client requests a protected resource, here is what happens in the Web API pipeline:
+1. The HostAuthentication filter calls the OAuth middleware to validate the token.
+2. The middleware converts the token into a claims identity.
+3. At this point, the request is authenticated but not authorized.
+4. The authorization filter examines the claims identity. If the claims authorize the user for that resource, the request is authorized. By default, the [Authorize] attribute will authorize any request that is authenticated. However, you can authorize by role or by other claims. For more information, see Authentication and Authorization in Web API.
+5. If the previous steps are successful, the controller returns the protected resource. Otherwise, the client receives a 401 (Unauthorized) error.
+
+![authenticationflow](https://cloud.githubusercontent.com/assets/1701237/25331121/f6f92dec-28f2-11e7-9331-6e589bcc6afe.png)
+
+**Testing the application:**
+
+1. Try to access protected resource using POSTMAN (google chrome extension) as anonymous user:
+
+![access-protected-resource-anonymous-user](https://cloud.githubusercontent.com/assets/1701237/25331289/81bc6dcc-28f3-11e7-8e6d-de07bb387c8f.png)
+
+2. Register as a new user:
+
+![register-user](https://cloud.githubusercontent.com/assets/1701237/25331313/9ca780b8-28f3-11e7-93b8-4b822cdcbef6.png)
+
+3. Get Token:
+
+![get-token](https://cloud.githubusercontent.com/assets/1701237/25331340/ae924132-28f3-11e7-8529-3bb61fc86935.png)
+
+4. Try to access protected resource using POSTMAN (google chrome extension) as registered user:
+
+![get-protected-resource-reg-user](https://cloud.githubusercontent.com/assets/1701237/25331358/c61e8982-28f3-11e7-9f33-55ef5cddf212.png)
+
+
+
+
+Main Source:
+https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
+
