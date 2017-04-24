@@ -92,19 +92,30 @@ When the client requests a protected resource, here is what happens in the Web A
 
 **Testing the application:**
 
+
+![testing-auth-flow](https://cloud.githubusercontent.com/assets/1701237/25331456/3a462fa4-28f4-11e7-8de4-2927f779cc61.png)
+
+
 1. Try to access protected resource using POSTMAN (google chrome extension) as anonymous user:
+
 
 ![access-protected-resource-anonymous-user](https://cloud.githubusercontent.com/assets/1701237/25331289/81bc6dcc-28f3-11e7-8e6d-de07bb387c8f.png)
 
+
 2. Register as a new user:
+
 
 ![register-user](https://cloud.githubusercontent.com/assets/1701237/25331313/9ca780b8-28f3-11e7-93b8-4b822cdcbef6.png)
 
+
 3. Get Token:
+
 
 ![get-token](https://cloud.githubusercontent.com/assets/1701237/25331340/ae924132-28f3-11e7-8529-3bb61fc86935.png)
 
+
 4. Try to access protected resource using POSTMAN (google chrome extension) as registered user:
+
 
 ![get-protected-resource-reg-user](https://cloud.githubusercontent.com/assets/1701237/25331358/c61e8982-28f3-11e7-9f33-55ef5cddf212.png)
 
